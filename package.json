@@ -1,6 +1,7 @@
 {
     "name": "csgoempire-api",
     "version": "0.1.2",
+    "type": "module",
     "main": "dist/index.js",
     "repository": "https://github.com/gustavo-dev/csgoempire-api.git",
     "author": "gustavo-dev <gvwchevrand@gmail.com>",
@@ -11,11 +12,13 @@
     "scripts": {
         "dev": "tsnd --respawn --transpile-only lib/index.ts",
         "prepublishOnly": "yarn build",
-        "build": "tsc"
+        "build": "node .task/build"
     },
     "devDependencies": {
         "@types/axios": "^0.14.0",
+        "@types/shelljs": "^0.8.9",
         "@types/socket.io-client": "^3.0.0",
+        "shelljs": "^0.8.4",
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.5.2"
     },
