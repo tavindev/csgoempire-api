@@ -2,11 +2,15 @@
     "name": "csgoempire-api",
     "version": "0.1.0",
     "main": "dist/index.js",
-    "repository": "https://github.com/OfficialCSGOEmpire/API-Docs.git",
+    "repository": "https://github.com/gustavo-dev/csgoempire-api.git",
     "author": "gustavo-dev <gvwchevrand@gmail.com>",
     "license": "MIT",
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "dev": "tsnd --respawn --transpile-only lib/index.ts",
+        "prepublishOnly": "yarn build",
         "build": "tsc"
     },
     "devDependencies": {
