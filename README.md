@@ -1,9 +1,9 @@
-# Unofficial CSGOEmpire API
-The unofficial CSGOEmpire API for JavaScript
+# Unofficial CSGOEmpire API Wrapper
+The unofficial CSGOEmpire API JavaScript Wrapper
 
-You can find the official documentation [here](https://github.com/OfficialCSGOEmpire/API-Docs#csgoempire-api-key-documentation)
+You can find the official api documentation [here](https://github.com/OfficialCSGOEmpire/API-Docs#csgoempire-api-key-documentation)
 
-The api is not complete yet. If you feel like contributing, open a pull request proposing a change :)
+This wrapper is not complete yet. If you feel like contributing, open a pull request proposing a change :)
 
 
 ## Usage
