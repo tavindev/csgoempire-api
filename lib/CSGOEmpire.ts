@@ -1,6 +1,5 @@
 import { Axios } from "axios"
 import io, { Socket } from "socket.io-client"
-import { Metadata, UpdateSettingsMethod, ItemDepositData } from "../typings"
 
 export enum TRADE_STATUS {
     Error = -1,

@@ -1,4 +1,4 @@
-export interface Metadata {
+interface Metadata {
     user: {
         id: number
     }
@@ -6,16 +6,16 @@ export interface Metadata {
     socket_signature: string
 }
 
-export interface UpdateSettingsParam {
+interface UpdateSettingsParam {
     trade_url: string
     steam_api_key?: string
 }
 
-export type UpdateSettingsMethod = (data: UpdateSettingsParam) => Promise<{
+type UpdateSettingsMethod = (data: UpdateSettingsParam) => Promise<{
     success: boolean
     escrow_seconds: number
 }>
 
-export interface ItemDepositData {
+interface ItemDepositData {
     items: Array<{ id: number; custom_price: number; coin_value: number }>
 }
