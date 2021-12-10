@@ -1,5 +1,5 @@
 import { Axios } from "axios"
-import io, { Socket } from "socket.io-client"
+import io from "socket.io-client"
 
 export enum TRADE_STATUS {
     Error = -1,
@@ -18,7 +18,7 @@ export enum TRADE_STATUS {
 
 export class CSGOEmpire {
     public api: Axios
-    public socket?: Socket
+    public socket?: SocketIOClient.Socket
 
     constructor(apiKey?: string, websocketEnabled = true) {
         this.api = new Axios({
@@ -29,32 +29,45 @@ export class CSGOEmpire {
             },
         })
 
+        // Convert data to JSON if string
+        this.api.interceptors.response.use(
+            (response) => {
+                if (typeof response.data === "string") {
+                    response.data = JSON.parse(response.data)
+                }
+
+                return response
+            },
+            (error) => {
+                return Promise.reject(error)
+            }
+        )
+
         if (websocketEnabled) {
             this.initSocket()
         }
     }
 
-    private initSocket = async () => {
-        const {
-            data: { user, socket_signature, socket_token },
-        } = await this.getMetadata()
-
-        this.socket = io(
-            "wss://trade.csgoempire.com/s/?EIO=3&transport=websocket",
-            {
-                transports: ["websocket"],
-                path: "/s/",
-                secure: true,
-                rejectUnauthorized: false,
-                extraHeaders: {
-                    "User-agent": `${user.id} API Bot`,
-                }, //this lets the server know that this is a bot
-            }
-        )
+    private initSocket = () => {
+        this.socket = io("wss://trade.csgoempire.com/trade", {
+            transports: ["websocket"],
+            path: "/s/",
+            secure: true,
+            rejectUnauthorized: false,
+            reconnection: true,
+            // @ts-ignore
+            extraHeaders: {
+                "User-Agent": "API Bot",
+            },
+        })
 
         this.socket.on("connect", async () => {
             // Typescript thinks socket is undefined in this context
             if (!this.socket) throw Error()
+
+            const {
+                data: { user, socket_signature, socket_token },
+            } = await this.getMetadata()
 
             // Log when connected
             console.log(`Connected to websocket`)
@@ -68,7 +81,7 @@ export class CSGOEmpire {
             })
 
             // Handle the Init event
-            this.socket.on("init", (data) => {
+            this.socket.on("init", (data: any) => {
                 if (data && data.authenticated) {
                     console.log(`Successfully authenticated as ${data.name}`)
                 }
