@@ -11,7 +11,7 @@
     "scripts": {
         "dev": "tsnd --respawn --transpile-only lib/index.ts",
         "prepublishOnly": "yarn build",
-        "build": "node .task/build"
+        "build": "node .task/build.mjs"
     },
     "devDependencies": {
         "@types/axios": "^0.14.0",
