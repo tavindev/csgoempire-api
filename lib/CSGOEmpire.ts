@@ -1,12 +1,25 @@
 import { Axios } from "axios"
 
 import io from "socket.io-client"
+
 import {
-    Metadata,
-    UpdateSettingsFunction,
-    SocketEvents,
     ExtendedSocket,
-    CreateDepositFunction,
+    UpdateSettingsData,
+    UpdateSettingsResponse,
+    MetadataResponse,
+    ActiveTradesResponse,
+    ActiveAuctionsResponse,
+    CSGOInventoryResponse,
+    UniqueInfoResponse,
+    CreateDepositData,
+    CreateDepositResponse,
+    CancelDepositResponse,
+    SellNowResponse,
+    ListedItemsResponse,
+    ListedItemsData,
+    DepositorStatsResponse,
+    CreateWithdrawalResponse,
+    PlaceBidResponse,
 } from "./typings"
 
 export enum TRADE_STATUS {
@@ -73,9 +86,8 @@ export class CSGOEmpire {
             // Typescript thinks socket is undefined in this context
             if (!this._socket) throw Error()
 
-            const {
-                data: { user, socket_signature, socket_token },
-            } = await this.getMetadata()
+            const { user, socket_signature, socket_token } =
+                await this.getMetadata()
 
             // Log when connected
             console.log(`Connected to websocket`)
@@ -123,7 +135,7 @@ export class CSGOEmpire {
      * which are used to authenticate on websocket.
      */
     public getMetadata = async () => {
-        return await this.api.get<Metadata>("/metadata/socket")
+        return (await this.api.get<MetadataResponse>("/metadata/socket")).data
     }
 
     /**
@@ -131,21 +143,30 @@ export class CSGOEmpire {
      * This does not include bids placed on active items until the auction ends.
      */
     public getActiveTrades = async () => {
-        return await this.api.get("/trading/user/trades")
+        return (
+            await this.api.get<ActiveTradesResponse>("/trading/user/trades")
+        ).data
     }
 
     /**
      * @returns an array of all auctions currently being bid on by this account.
      */
     public getActiveAuctions = async () => {
-        return await this.api.get("/trading/user/auctions")
+        return (
+            await this.api.get<ActiveAuctionsResponse>("/trading/user/auctions")
+        ).data
     }
 
     /**
      * Used to update your tradelink and/or Steam API key
      */
-    public updateSettings: UpdateSettingsFunction = async (data) => {
-        return await this.api.post("/trading/user/settings", data)
+    public updateSettings = async (data: UpdateSettingsData) => {
+        return (
+            await this.api.post<UpdateSettingsResponse>(
+                "/trading/user/settings",
+                data
+            )
+        ).data
     }
 
     /**
@@ -153,14 +174,22 @@ export class CSGOEmpire {
      * @param invalid boolean
      */
     public getCSGOInventory = async (invalid = false) => {
-        return await this.api.get(`/trading/user/inventory?invalid=${invalid}`)
+        return (
+            await this.api.get<CSGOInventoryResponse>(
+                `/trading/user/inventory?invalid=${invalid}`
+            )
+        ).data
     }
 
     /**
      * Get inspected unique info for items in user inventory. Examples include float/sticker data
      */
     public getUniqueInfo = async () => {
-        return await this.api.get("/trading/user/inventory/unique-info")
+        return (
+            await this.api.get<UniqueInfoResponse>(
+                "/trading/user/inventory/unique-info"
+            )
+        ).data
     }
 
     /**
@@ -168,8 +197,10 @@ export class CSGOEmpire {
      *
      * Notes: coin_value is in coin cents, so 100.01 coins is represented as 10001
      */
-    public createDeposit: CreateDepositFunction = async (data) => {
-        return await this.api.post("/trading/deposit", data)
+    public createDeposit = async (data: CreateDepositData) => {
+        return (
+            await this.api.post<CreateDepositResponse>("/trading/deposit", data)
+        ).data
     }
 
     /**
@@ -177,7 +208,11 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public cancelDeposit = async (deposit_id: number) => {
-        return await this.api.post(`/trading/deposit/${deposit_id}/cancel`)
+        return (
+            await this.api.post<CancelDepositResponse>(
+                `/trading/deposit/${deposit_id}/cancel`
+            )
+        ).data
     }
 
     /**
@@ -186,17 +221,37 @@ export class CSGOEmpire {
      * @returns
      */
     public sellNow = async (deposit_id: number) => {
-        return await this.api.post(`/trading/deposit/${deposit_id}/sell`)
+        return (
+            await this.api.post<SellNowResponse>(
+                `/trading/deposit/${deposit_id}/sell`
+            )
+        ).data
     }
 
     /**
      * Get a list of all items listed on the withdrawals page
      * TODO: params
      */
-    public getListedItems = async (page: number, per_page: number) => {
-        return await this.api.get(
-            `/trading/items?page=${page}&per_page=${per_page}`
-        )
+    public getListedItems = async (
+        page: number,
+        per_page: number,
+        options?: ListedItemsData
+    ) => {
+        let queryString = ""
+
+        if (options) {
+            for (const key in options) {
+                queryString += `&${key}=${
+                    options[key as keyof ListedItemsData]
+                }`
+            }
+        }
+
+        return (
+            await this.api.get<ListedItemsResponse>(
+                `/trading/items?page=${page}&per_page=${per_page}${queryString}`
+            )
+        ).data
     }
 
     /**
@@ -204,7 +259,11 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public getDepositorStats = async (deposit_id: number) => {
-        return await this.api.get(`/trading/deposit/${deposit_id}/stats`)
+        return (
+            await this.api.get<DepositorStatsResponse>(
+                `/trading/deposit/${deposit_id}/stats`
+            )
+        ).data
     }
 
     /**
@@ -212,7 +271,11 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public createWithdawal = async (deposit_id: number) => {
-        return await this.api.post(`/trading/deposit/${deposit_id}/withdraw`)
+        return (
+            await this.api.post<CreateWithdrawalResponse>(
+                `/trading/deposit/${deposit_id}/withdraw`
+            )
+        ).data
     }
 
     /**
@@ -220,6 +283,10 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public placeBid = async (deposit_id: number) => {
-        return await this.api.post(`/trading/deposit/${deposit_id}/bid`)
+        return (
+            await this.api.post<PlaceBidResponse>(
+                `/trading/deposit/${deposit_id}/bid`
+            )
+        ).data
     }
 }
