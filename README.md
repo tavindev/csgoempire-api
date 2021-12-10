@@ -5,6 +5,15 @@ You can find the official api documentation [here](https://github.com/OfficialCS
 
 This wrapper is not complete yet. If you feel like contributing, open a pull request proposing a change :)
 
+## Installation
+With npm:
+```
+npm install csgoempire-api
+```
+With Yarn:
+```
+yarn add csgoempire-api
+```
 
 ## Usage
 ```javascript
