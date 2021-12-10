@@ -43,17 +43,7 @@ const api = new CSGOEmpire(YOUR_API_KEY, false)
 const socket = api.socket // undefined
 ```
 
-## Notes
-- **getListedItems** method currently accepts only **page** and **per_page** params
-
-- Complete typing interfaces are yet to be made. That means there's no full typings support at the moment
-
-  
-## Roadmap
-- [ ] Fully typed api
-
-
-## Documentation (Work in progress)
+## Documentation
 
 ### Api class
 ```javascript
