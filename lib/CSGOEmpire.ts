@@ -205,7 +205,7 @@ export class CSGOEmpire {
 
     /**
      * Cancels processing deposit without any bids. Once a bid has been placed items are no longer eligible to be cancelled.
-     * @param deposit_id {number}
+     * @param deposit_id {number} The deposited item's id
      */
     public cancelDeposit = async (deposit_id: number) => {
         return (
@@ -217,7 +217,7 @@ export class CSGOEmpire {
 
     /**
      * Sells an on going auction item to the current auction highest bidder
-     * @param deposit_id {number}
+     * @param deposit_id {number} The deposited item's id
      * @returns
      */
     public sellNow = async (deposit_id: number) => {
