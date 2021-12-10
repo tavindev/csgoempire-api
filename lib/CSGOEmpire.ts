@@ -171,12 +171,12 @@ export class CSGOEmpire {
 
     /**
      * Fetch your inventory from steam and caches it to the database for 1 hour.
-     * @param invalid boolean
+     * @param invalid {boolean} true or false
      */
-    public getCSGOInventory = async (invalid = false) => {
+    public getCSGOInventory = async (invalid: boolean = false) => {
         return (
             await this.api.get<CSGOInventoryResponse>(
-                `/trading/user/inventory?invalid=${invalid}`
+                `/trading/user/inventory?invalid=${invalid ? "yes" : "no"}`
             )
         ).data
     }
@@ -205,7 +205,7 @@ export class CSGOEmpire {
 
     /**
      * Cancels processing deposit without any bids. Once a bid has been placed items are no longer eligible to be cancelled.
-     * @param deposit_id number
+     * @param deposit_id {number}
      */
     public cancelDeposit = async (deposit_id: number) => {
         return (
@@ -217,7 +217,7 @@ export class CSGOEmpire {
 
     /**
      * Sells an on going auction item to the current auction highest bidder
-     * @param deposit_id number
+     * @param deposit_id {number}
      * @returns
      */
     public sellNow = async (deposit_id: number) => {
@@ -230,7 +230,9 @@ export class CSGOEmpire {
 
     /**
      * Get a list of all items listed on the withdrawals page
-     * TODO: params
+     * @param page {number} The page to fetch the data from
+     * @param per_page {number} The ammount of items to be fetched per page
+     * @param options {Object} An object containing filtering options
      */
     public getListedItems = async (
         page: number,
@@ -256,7 +258,7 @@ export class CSGOEmpire {
 
     /**
      * Get the depositing users stats from a unique deposit ID
-     * @param deposit_id number
+     * @param deposit_id {number} The deposited item's id
      */
     public getDepositorStats = async (deposit_id: number) => {
         return (
@@ -268,7 +270,7 @@ export class CSGOEmpire {
 
     /**
      * Withdraw item directly if the auction has expired without being won.
-     * @param deposit_id number
+     * @param deposit_id {number} The deposited item's id
      */
     public createWithdawal = async (deposit_id: number) => {
         return (
@@ -280,7 +282,7 @@ export class CSGOEmpire {
 
     /**
      * Place a bid on an auction.
-     * @param deposit_id number
+     * @param deposit_id {number} The deposited item's id
      */
     public placeBid = async (deposit_id: number) => {
         return (
