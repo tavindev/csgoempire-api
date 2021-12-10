@@ -1,5 +1,13 @@
 import { Axios } from "axios"
+
 import io from "socket.io-client"
+import {
+    Metadata,
+    UpdateSettingsFunction,
+    SocketEvents,
+    ExtendedSocket,
+    CreateDepositFunction,
+} from "./typings"
 
 export enum TRADE_STATUS {
     Error = -1,
@@ -17,8 +25,8 @@ export enum TRADE_STATUS {
 }
 
 export class CSGOEmpire {
-    public api: Axios
-    public socket?: SocketIOClient.Socket
+    private api: Axios
+    private _socket?: SocketIOClient.Socket
 
     constructor(apiKey?: string, websocketEnabled = true) {
         this.api = new Axios({
@@ -49,7 +57,7 @@ export class CSGOEmpire {
     }
 
     private initSocket = () => {
-        this.socket = io("wss://trade.csgoempire.com/trade", {
+        this._socket = io("wss://trade.csgoempire.com/trade", {
             transports: ["websocket"],
             path: "/s/",
             secure: true,
@@ -61,9 +69,9 @@ export class CSGOEmpire {
             },
         })
 
-        this.socket.on("connect", async () => {
+        this._socket.on("connect", async () => {
             // Typescript thinks socket is undefined in this context
-            if (!this.socket) throw Error()
+            if (!this._socket) throw Error()
 
             const {
                 data: { user, socket_signature, socket_token },
@@ -73,7 +81,7 @@ export class CSGOEmpire {
             console.log(`Connected to websocket`)
 
             // Emit the data we got earlier to the socket to identify this client as the user
-            this.socket.emit("identify", {
+            this._socket.emit("identify", {
                 uid: user.id,
                 model: user,
                 authorizationToken: socket_token,
@@ -81,12 +89,32 @@ export class CSGOEmpire {
             })
 
             // Handle the Init event
-            this.socket.on("init", (data: any) => {
+            this._socket.on("init", (data: any) => {
                 if (data && data.authenticated) {
                     console.log(`Successfully authenticated as ${data.name}`)
                 }
             })
         })
+    }
+
+    /**
+     * Extended socket instance
+     */
+    get socket() {
+        if (!this._socket) throw Error("Socket is not available")
+
+        const { on, ...rest } = this._socket
+
+        const _socket = { ...rest } as ExtendedSocket
+
+        _socket.on = (event, fn) => {
+            // Typescript thinks this could be undefined
+            if (!this._socket) throw Error("Socket is not available")
+
+            return this._socket.on(event, fn)
+        }
+
+        return _socket
     }
 
     /**
@@ -116,7 +144,7 @@ export class CSGOEmpire {
     /**
      * Used to update your tradelink and/or Steam API key
      */
-    public updateSettings: UpdateSettingsMethod = async (data) => {
+    public updateSettings: UpdateSettingsFunction = async (data) => {
         return await this.api.post("/trading/user/settings", data)
     }
 
@@ -140,8 +168,8 @@ export class CSGOEmpire {
      *
      * Notes: coin_value is in coin cents, so 100.01 coins is represented as 10001
      */
-    public createDeposit = async (data: ItemDepositData) => {
-        return this.api.post("/trading/deposit", data)
+    public createDeposit: CreateDepositFunction = async (data) => {
+        return await this.api.post("/trading/deposit", data)
     }
 
     /**
@@ -149,7 +177,7 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public cancelDeposit = async (deposit_id: number) => {
-        return this.api.post(`/trading/deposit/${deposit_id}/cancel`)
+        return await this.api.post(`/trading/deposit/${deposit_id}/cancel`)
     }
 
     /**
@@ -158,7 +186,7 @@ export class CSGOEmpire {
      * @returns
      */
     public sellNow = async (deposit_id: number) => {
-        return this.api.post(`/trading/deposit/${deposit_id}/sell`)
+        return await this.api.post(`/trading/deposit/${deposit_id}/sell`)
     }
 
     /**
@@ -176,7 +204,7 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public getDepositorStats = async (deposit_id: number) => {
-        return this.api.get(`/trading/deposit/${deposit_id}/stats`)
+        return await this.api.get(`/trading/deposit/${deposit_id}/stats`)
     }
 
     /**
@@ -184,7 +212,7 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public createWithdawal = async (deposit_id: number) => {
-        return this.api.post(`/trading/deposit/${deposit_id}/withdraw`)
+        return await this.api.post(`/trading/deposit/${deposit_id}/withdraw`)
     }
 
     /**
@@ -192,6 +220,6 @@ export class CSGOEmpire {
      * @param deposit_id number
      */
     public placeBid = async (deposit_id: number) => {
-        return this.api.post(`/trading/deposit/${deposit_id}/bid`)
+        return await this.api.post(`/trading/deposit/${deposit_id}/bid`)
     }
 }
