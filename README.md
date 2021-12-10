@@ -8,7 +8,7 @@ This wrapper is not complete yet. If you feel like contributing, open a pull req
 
 ## Usage
 ```javascript
-import CSGOEmpire from "csgoempire-api"
+import { CSGOEmpire } from "csgoempire-api"
 
 const api = new CSGOEmpire(YOUR_API_KEY)
 
