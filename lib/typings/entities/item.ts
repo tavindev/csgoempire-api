@@ -4,11 +4,6 @@ import { Sticker } from "./sticker"
 export interface Item {
     app_id: number
     asset_id: number
-    auction_auto_withdraw_failed: null
-    auction_ends_at: number
-    auction_highest_bid: Maybe<number>
-    auction_highest_bidder: Maybe<number>
-    auction_number_of_bids: Maybe<number>
     custom_name: Maybe<string>
     description_type: string
     icon_url: string
@@ -33,6 +28,5 @@ export interface Item {
         | boolean
     updated_at: string
     wear: Maybe<number>
-    published_at: string
     id: number
 }

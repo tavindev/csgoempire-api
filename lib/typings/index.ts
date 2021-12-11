@@ -2,9 +2,9 @@ import { AuctionData } from "./entities/auctionData"
 import { Item } from "./entities/item"
 import { Deposit } from "./operations/deposit"
 
-export interface NewItemSocketData extends Item {}
+export interface NewItemSocketData extends Item, AuctionData {}
 
-export interface UpdatedItemSocketData extends Item {}
+export interface UpdatedItemSocketData extends Item, AuctionData {}
 
 export interface AuctionUpdateSocketData extends AuctionData {}
 
