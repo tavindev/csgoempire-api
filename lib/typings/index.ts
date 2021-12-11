@@ -2,9 +2,12 @@ import { AuctionData } from "./entities/auctionData"
 import { Item } from "./entities/item"
 import { Deposit } from "./operations/deposit"
 
-export interface NewItemSocketData extends Item, AuctionData {}
+export interface NewItemSocketData extends Item, AuctionData {
+    custom_price_percentage: number
+    published_at: string
+}
 
-export interface UpdatedItemSocketData extends Item, AuctionData {}
+export interface UpdatedItemSocketData extends NewItemSocketData {}
 
 export interface AuctionUpdateSocketData extends AuctionData {}
 

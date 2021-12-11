@@ -16,7 +16,7 @@ export interface Item {
     paint_index: Maybe<number>
     paint_seed: Maybe<number>
     preview_id: Maybe<number>
-    price_is_unreliable: number
+    price_is_unreliable: boolean | number
     stickers: Array<Sticker>
     tradable: boolean
     tradelock:
