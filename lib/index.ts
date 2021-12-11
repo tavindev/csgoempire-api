@@ -1,3 +1,3 @@
-export { TRADE_STATUS, CSGOEmpire } from "./CSGOEmpire"
+export { CSGOEmpire } from "./CSGOEmpire"
 
 export * from "./typings"

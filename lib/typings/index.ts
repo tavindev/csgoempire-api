@@ -16,7 +16,7 @@ export type DeletedItemSocketData = Array<number>
 // TODO: Use TRADE_STATUS Enum
 export interface TradeStatusSocketData {
     type: string
-    data: Deposit
+    data: {}
 }
 
 export interface SocketEvents {
@@ -49,3 +49,4 @@ export * from "./requests/getUniqueInfo"
 export * from "./requests/placeBid"
 export * from "./requests/sellNow"
 export * from "./requests/updateSettings"
+export * from "./enums"
