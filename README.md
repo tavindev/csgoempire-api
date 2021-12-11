@@ -45,7 +45,7 @@ const socket = api.socket // undefined
 
 ## Documentation
 
-### Api class
+### Api 
 ```javascript
 const empire = new CSGOEmpire(apiKey, webSocketEnabled)
 ```
@@ -108,6 +108,7 @@ empire.getMetadata().then(res => {
     ...
 })
 ```
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getMetadata.ts)
 
 ---
 
@@ -124,6 +125,8 @@ empire.getActiveTrades().then(res => {
 })
 ```
 
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getActiveTrades.ts)
+
 ---
 
 ### getActiveAuctions
@@ -139,6 +142,8 @@ empire.getActiveAuctions().then(res => {
 })
 ```
 
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getActiveAuctions.ts)
+
 ---
 
 ### updateSettings
@@ -153,6 +158,8 @@ empire.updateSettings().then(res => {
     ...
 })
 ```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/updateSettings.ts)
 
 ---
 
@@ -172,6 +179,7 @@ empire.getCSGOInventory().then(res => {
     ...
 })
 ```
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/csgoInventory.ts)
 
 #### getUniqueInfo
 Get inspected unique info for items in user inventory. Examples include float/sticker data
@@ -185,6 +193,9 @@ empire.getUniqueInfo().then(res => {
     ...
 })
 ```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getUniqueInfo.ts)
+
 
 #### createDeposit
 Creates an item deposit
@@ -209,6 +220,8 @@ empire.createDeposit({
 })
 ```
 
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/createDeposit.ts)
+
 #### cancelDeposit
 Cancels processing deposit without any bids. Once a bid has been placed items are no longer eligible to be cancelled.
 
@@ -222,6 +235,8 @@ empire.cancelDeposit(28391470).then(res => {
 })
 ```
 
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/cancelDeposit.ts)
+
 #### sellNow
 Sells an on going auction item to the current auction highest bidder
 
@@ -234,6 +249,8 @@ empire.sellNow(28391470).then(res => {
     ...
 })
 ```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/sellNow.ts)
 
 ---
 
@@ -255,6 +272,8 @@ empire.getListedItems(1, 50, { sort: "asc" }).then(res => {
 })
 ```
 
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getListedItems.ts)
+
 #### getDepositorStats
 Get the depositing users stats from a unique deposit ID
 
@@ -268,7 +287,10 @@ empire.getDepositorStats(28391470).then(res => {
 })
 ```
 
-#### createWithdawal
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/depositorStats.ts)
+
+
+#### createWithdrawal
 Withdraw item directly if the auction has expired without being won.
 
 | Option | Type | Default Value | Description |
@@ -276,10 +298,12 @@ Withdraw item directly if the auction has expired without being won.
 | deposit_id | number | - | The deposited item's id |
 
 ```javascript
-empire.createWithdawal(28391470).then(res => {
+empire.createWithdrawal(28391470).then(res => {
     ...
 })
 ```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/createWithdrawal.ts)
 
 #### placeBid
 Place a bid on an auction.
@@ -293,3 +317,5 @@ empire.placeBid(28391470).then(res => {
     ...
 })
 ```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/placeBid.ts)
