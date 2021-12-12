@@ -50,3 +50,6 @@ export * from "./requests/placeBid"
 export * from "./requests/sellNow"
 export * from "./requests/updateSettings"
 export * from "./enums"
+
+// Exports CSGOEmpire class (temp fix?)
+export { CSGOEmpire } from "../CSGOEmpire"

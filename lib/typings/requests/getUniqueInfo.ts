@@ -2,5 +2,5 @@ import { Item } from "../entities/item"
 
 export interface UniqueInfoResponse {
     success: boolean
-    data: Array<Pick<Item, "id" | "asset_id" | "wear" | "stickers">>
+    data: Array<Pick<Item, "id" | "wear" | "stickers">> & { asset_id: number }
 }

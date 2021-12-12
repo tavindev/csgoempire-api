@@ -3,7 +3,6 @@ import { Sticker } from "./sticker"
 
 export interface Item {
     app_id: number
-    asset_id: number
     custom_name: Maybe<string>
     description_type: string
     icon_url: string
@@ -20,12 +19,12 @@ export interface Item {
     stickers: Array<Sticker>
     tradable: boolean
     tradelock:
+        | false
         | {
               time_left_days: number
               time_left_hours: number
               timestamp: number
           }
-        | boolean
     updated_at: string
     wear: Maybe<number>
     id: number

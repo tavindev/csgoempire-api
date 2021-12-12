@@ -2,6 +2,7 @@
     "name": "csgoempire-api",
     "version": "0.3.4",
     "main": "dist/index.js",
+    "typings": "dist/typings",
     "repository": "https://github.com/gustavo-dev/csgoempire-api.git",
     "author": "gustavo-dev <gvwchevrand@gmail.com>",
     "license": "MIT",

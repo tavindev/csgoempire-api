@@ -1,6 +1,5 @@
-import { Invoice } from "../entities/invoice"
+import { AuctionData } from "../entities/auctionData"
 import { Item } from "../entities/item"
-import { User } from "../entities/user"
 import { Maybe } from "../utils"
 
 export interface Withdrawal {
@@ -14,23 +13,18 @@ export interface Withdrawal {
     trade_id: number
     status: number
     status_message: string
-    metadata: {
-        auction_highest_bid: null
-        auction_highest_bidder: null
-        auction_number_of_bids: 0
-        auction_ends_at: number
-        auction_auto_withdraw_failed: null
+    metadata: AuctionData & {
         price_updated_at: null
         trade_url: 1
         partner: null
-        total_fee: null
-        fee: null
-        old_total_value: null
+        total_fee: Maybe<number>
+        fee: Maybe<number>
+        old_total_value: Maybe<number>
         item_position_in_inventory: number
         item_inspected: boolean
         steam_id: string
-        expires_at: null
-        delivery_time: null
+        expires_at: Maybe<string>
+        delivery_time: Maybe<string>
         phishingScamDetected: null
         item_validation: null
         possible_abuse_detected_at: null
@@ -40,13 +34,4 @@ export interface Withdrawal {
     }
     created_at: string
     updated_at: string
-    invoice: Invoice & {
-        user: Omit<User, "api_token"> & {
-            steam_data: {
-                user_id: number
-                timecreated: number
-            }
-        }
-        processor_txid: string
-    }
 }

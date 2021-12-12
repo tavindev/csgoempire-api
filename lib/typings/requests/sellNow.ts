@@ -1,14 +1,6 @@
-import { Item } from "../entities/item"
+import { AuctionData } from "../entities/auctionData"
 
 export interface SellNowResponse {
     success: boolean
-    auction_data: Pick<
-        Item,
-        | "id"
-        | "app_id"
-        | "auction_highest_bid"
-        | "auction_highest_bidder"
-        | "auction_number_of_bids"
-        | "auction_ends_at"
-    >
+    auction_data: AuctionData
 }

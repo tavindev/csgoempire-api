@@ -22,4 +22,14 @@ export interface ListedItemsData {
 export interface ListedItemsResponse {
     current_page: number
     data: Array<ListedItem>
+    first_page_url: string
+    from: number
+    last_page: number
+    last_page_url: string
+    next_page_url: Maybe<string>
+    path: string
+    per_page: string
+    prev_page_url: Maybe<string>
+    to: number
+    total: number
 }

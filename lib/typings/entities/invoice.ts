@@ -13,10 +13,6 @@ export interface Invoice {
     updated_at: number
     created_at: number
     id: number
-    processor_ref: string
     status_name: string
     processor_name: string
-    currency_code: string
-    complete_at: Maybe<string>
-    refunded_at: Maybe<string>
 }
