@@ -6,6 +6,9 @@ export interface CreateWithdrawalResponse {
     success: boolean
     data: Withdrawal
     invoice: Invoice & {
+        metadata: {
+            deposit_id: number
+        }
         processor_txid: string
         user: Omit<User, "api_token"> & {
             steam_data: {

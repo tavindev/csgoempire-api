@@ -15,6 +15,7 @@ type InventoryItem = Omit<Item, "paint_seed" | "custom_name" | "stickers"> & {
     type: string
     stickers: string
     asset_id: number
+    context_id: number
 }
 
 export interface CSGOInventoryResponse {

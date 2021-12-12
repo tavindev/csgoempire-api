@@ -25,7 +25,7 @@ export interface Item {
               time_left_hours: number
               timestamp: number
           }
-    updated_at: string
+    updated_at: Maybe<string>
     wear: Maybe<number>
     id: number
 }

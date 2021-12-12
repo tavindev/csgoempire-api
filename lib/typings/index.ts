@@ -1,6 +1,5 @@
 import { AuctionData } from "./entities/auctionData"
 import { Item } from "./entities/item"
-import { Deposit } from "./operations/deposit"
 
 export interface NewItemSocketData extends Item, AuctionData {
     custom_price_percentage: number

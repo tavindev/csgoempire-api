@@ -1,3 +1,4 @@
+import { Invoice } from "../entities/invoice"
 import { Maybe } from "../utils"
 
 export interface CreateDepositData {
@@ -14,26 +15,15 @@ export interface CreateDepositResponse {
         success: boolean
         id: string
         item_id: number
-        invoice: {
-            user_id: number
+        invoice: Omit<Invoice, "ip"> & {
             ip_address: string
-            status: number
-            processor_id: number
-            currency_id: number
-            amount: number
-            amount_coins: number
             metadata: {
                 item_id: number
                 custom_price_percentage: number
             }
-            updated_at: number
-            created_at: number
-            id: number
             processor_ref: string
-            processor_name: string
             provider_friendly_name: string
             Method_friendly_name: Maybe<string>
-            status_name: string
             currency_code: string
             paid_at: Maybe<string>
             refunded_at: Maybe<string>

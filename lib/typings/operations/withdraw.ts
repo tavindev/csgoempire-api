@@ -6,7 +6,12 @@ export interface Withdrawal {
     id: number
     user_id: number
     item_id: Maybe<number>
-    items: Array<Item>
+    items: Array<
+        Item & {
+            created_at: number
+            custom_price_percentage: number
+        }
+    >
     total_value: number
     security_code: string
     tradeoffer_id: number
