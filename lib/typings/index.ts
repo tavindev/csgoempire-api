@@ -1,5 +1,7 @@
+import { Withdrawal } from "./operations/withdraw"
 import { AuctionData } from "./entities/auctionData"
 import { Item } from "./entities/item"
+import { Deposit } from "./operations/deposit"
 
 export interface NewItemSocketData extends Item, AuctionData {
     custom_price_percentage: number
@@ -13,10 +15,15 @@ export interface AuctionUpdateSocketData extends AuctionData {}
 export type DeletedItemSocketData = Array<number>
 
 // TODO: Use TRADE_STATUS Enum
-export interface TradeStatusSocketData {
-    type: string
-    data: {}
-}
+export type TradeStatusSocketData =
+    | {
+          type: "deposit"
+          data: Deposit
+      }
+    | {
+          type: "withdrawal"
+          data: Withdrawal
+      }
 
 export interface SocketEvents {
     timesync: (data: string) => any
