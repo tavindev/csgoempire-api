@@ -268,11 +268,13 @@ export class CSGOEmpire {
     /**
      * Place a bid on an auction.
      * @param deposit_id {number} The deposited item's id
+     * @param bid_value {number} The ammount to bid
      */
-    public placeBid = async (deposit_id: number) => {
+    public placeBid = async (deposit_id: number, bid_value: number) => {
         return (
             await this.api.post<PlaceBidResponse>(
-                `/trading/deposit/${deposit_id}/bid`
+                `/trading/deposit/${deposit_id}/bid`,
+                { bid_value }
             )
         ).data
     }
