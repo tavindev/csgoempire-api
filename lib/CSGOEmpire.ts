@@ -26,7 +26,7 @@ export class CSGOEmpire {
     private api: Axios
     private _socket?: SocketIOClient.Socket
 
-    constructor(apiKey?: string, websocketEnabled = true) {
+    constructor(apiKey?: string) {
         this.api = new Axios({
             baseURL: "https://csgoempire.com/api/v2",
             withCredentials: true,
@@ -48,13 +48,12 @@ export class CSGOEmpire {
                 return Promise.reject(error)
             }
         )
-
-        if (websocketEnabled) {
-            this.initSocket()
-        }
     }
 
-    private initSocket = () => {
+    public initSocket = (cb: (socket: ExtendedSocket) => void = () => {}) => {
+        // Debounce
+        if (this._socket) return
+
         this._socket = io("wss://trade.csgoempire.com/trade", {
             transports: ["websocket"],
             path: "/s/",
@@ -69,7 +68,7 @@ export class CSGOEmpire {
 
         this._socket.on("connect", async () => {
             // Typescript thinks socket is undefined in this context
-            if (!this._socket) throw Error()
+            if (!this._socket) throw Error("Socket is not available")
 
             const { user, socket_signature, socket_token } =
                 await this.getMetadata()
@@ -89,6 +88,7 @@ export class CSGOEmpire {
             this._socket.on("init", (data: any) => {
                 if (data && data.authenticated) {
                     console.log(`Successfully authenticated as ${data.name}`)
+                    cb(this.socket)
                 }
             })
         })
