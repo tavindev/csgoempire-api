@@ -19,35 +19,39 @@ yarn add csgoempire-api
 ```javascript
 import { CSGOEmpire } from "csgoempire-api"
 
-const api = new CSGOEmpire(YOUR_API_KEY)
+const empire = new CSGOEmpire(YOUR_API_KEY)
 
-api.getActiveTrades()
-api.getActiveAuctions()
+empire.getActiveTrades()
+empire.getActiveAuctions()
 ...
 ```
 
-Accessing the websocket instance:
+Initializing websocket:
 ```javascript 
-...
-const api = new CSGOEmpire(YOUR_API_KEY)
+import { CSGOEmpire } from "csgoempire-api"
 
-const socket = api.socket
+const empire = new CSGOEmpire(YOUR_API_KEY)
 
-socket.on(..., () => ...)
+empire.initSocket((socket) => {
+    socket.on("new_item", (data) => {
+        // ...
+    })
+})
+
+// empire.socket can be undefined
+const socket = empire.socket
 ```
-
-Disabling websocket
-```javascript
-const api = new CSGOEmpire(YOUR_API_KEY, false)
-
-const socket = api.socket // undefined
-```
+Note: Not running `initSocket` will result in a undefined socket instance
+### initSocket(fn)
+| Option | Type | Default Value | Description |
+| :----: | :--: | :----: | :----: | 
+| fn | Function? | - | A callback function that gets executed when the socket is initialized and authenticated |
 
 ## Documentation
 
 ### Api 
 ```javascript
-const empire = new CSGOEmpire(apiKey, webSocketEnabled)
+const empire = new CSGOEmpire(apiKey)
 ```
 - apiKey: string (required)
 - webSocketEnabled: boolean (optional) (true by default)
@@ -55,13 +59,16 @@ const empire = new CSGOEmpire(apiKey, webSocketEnabled)
 ---
 
 ### Socket
-Extends [socket.io-client's](https://github.com/socketio/socket.io-client) class
+Extends [socket.io-client's](https://github.com/socketio/socket.io-client) class. Can be `undefined` if not initialized
 
 ```javascript
 const socket = empire.socket
 ```
 
 #### on(event, fn)
+
+`socket.on` is a `io().on` wrapper that provides typings support for CSGOEmpire's events
+
 ```javascript
 socket.on(event, fn)
 ```
@@ -311,9 +318,10 @@ Place a bid on an auction.
 | Option | Type | Default Value | Description |
 | :----: | :--: | :----: | :----: | 
 | deposit_id | number | - | The deposited item's id |
+| bid_value | number | - | The ammount to bid |
 
 ```javascript
-empire.placeBid(28391470).then(res => {
+empire.placeBid(28391470, 60).then(res => {
     ...
 })
 ```
