@@ -12,12 +12,19 @@
     "scripts": {
         "dev": "tsnd --respawn --transpile-only lib/index.ts",
         "prepublishOnly": "yarn build",
-        "build": "node .task/build.mjs"
+        "build": "node .task/build.mjs",
+        "prepare": "husky install",
+        "commit": "git commit -m ''"
     },
     "devDependencies": {
+        "@commitlint/cli": "^15.0.0",
+        "@commitlint/config-conventional": "^15.0.0",
         "@types/axios": "^0.14.0",
         "@types/shelljs": "^0.8.9",
         "@types/socket.io-client": "1.4.36",
+        "commitizen": "^4.2.4",
+        "cz-conventional-changelog": "3.3.0",
+        "husky": "^7.0.4",
         "shelljs": "^0.8.4",
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.5.2"
@@ -27,5 +34,10 @@
         "socket.io-client": "2.0.3",
         "socket.io-parser": "^3.2.2",
         "xmlhttprequest-ssl": "^1.6.2"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
 }
