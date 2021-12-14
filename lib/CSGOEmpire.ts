@@ -24,7 +24,11 @@ import {
 
 export class CSGOEmpire {
     private api: Axios
+
+    // Trade Socket
     private _socket?: SocketIOClient.Socket
+
+    // private notificationsSocket: SocketIOClient.Socket
 
     constructor(apiKey?: string) {
         this.api = new Axios({

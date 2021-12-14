@@ -29,11 +29,21 @@ export interface OperationBase {
         item_position_in_inventory: number
         item_inspected: boolean
         steam_id: string
-        expires_at: Maybe<string>
-        delivery_time: Maybe<string>
+        expires_at: Maybe<number>
+        delivery_time: Maybe<number>
         phishingScamDetected: null
-        item_validation: null
-        possible_abuse_detected_at: null
+        item_validation: Maybe<{
+            validItemDetected: boolean
+            numWrongItemDetections: number
+            lastWrongItemDetectionTime: Maybe<number>
+            validatedAt: number
+            firstPendingTradeAlertSent: boolean
+            secondPendingTradeAlertSent: boolean
+            lastServerMessage: string
+            notifyBuyerFound: boolean
+            releaseWithdrawerCoins: boolean
+        }>
+        possible_abuse_detected_at: Maybe<number>
         penalty: null
         service_name: string
         service_invoice_id: number
