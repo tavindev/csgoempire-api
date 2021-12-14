@@ -29,10 +29,22 @@ export class CSGOEmpire {
     constructor(apiKey?: string) {
         this.api = new Axios({
             baseURL: "https://csgoempire.com/api/v2",
-            withCredentials: true,
             headers: {
                 authorization: apiKey ? `Bearer ${apiKey}` : "",
+                "content-type": "application/json",
+                "user-agent": "API Bot",
             },
+        })
+
+        /**
+         * Axios adapter require data to be
+         * a String, ArrayBuffer, Buffer or Stream
+         */
+
+        this.api.interceptors.request.use((config) => {
+            if (config.data) config.data = JSON.stringify(config.data)
+
+            return config
         })
 
         // Convert data to JSON if string
