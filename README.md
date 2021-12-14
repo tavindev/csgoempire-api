@@ -3,6 +3,8 @@ The unofficial CSGOEmpire API JavaScript Wrapper
 
 You can find the **Official CSGOEmpire Api** documentation [here](https://github.com/OfficialCSGOEmpire/API-Docs#csgoempire-api-key-documentation)
 
+You can also find the change log file [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/CHANGELOG.md)
+
 This wrapper is not complete yet. If you feel like contributing, open a pull request proposing a change :)
 
 ## Installation
