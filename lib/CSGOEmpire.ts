@@ -20,6 +20,8 @@ import {
     DepositorStatsResponse,
     CreateWithdrawalResponse,
     PlaceBidResponse,
+    GetSeedsResponse,
+    GetHistoryResponse,
 } from "./typings"
 
 export class CSGOEmpire {
@@ -291,6 +293,31 @@ export class CSGOEmpire {
             await this.api.post<PlaceBidResponse>(
                 `/trading/deposit/${deposit_id}/bid`,
                 { bid_value }
+            )
+        ).data
+    }
+
+    /**
+     * Returns roulette seed
+     * @param page {number} The page to fetch the data from
+     * @param per_page {number} The ammount of items to be fetched per page
+     */
+    public getSeeds = async (page: number, per_page: number = 15) => {
+        return (
+            await this.api.get<GetSeedsResponse>(
+                `/metadata/roulette/seeds?per_page=${per_page}&page=${page}`
+            )
+        ).data
+    }
+
+    /**
+     * Returns rolls history
+     * @param seed {number} The seed to fetch the data from
+     */
+    public getHistory = async (seed: number) => {
+        return (
+            await this.api.get<GetHistoryResponse>(
+                `/metadata/roulette/history?seed=${seed}`
             )
         ).data
     }

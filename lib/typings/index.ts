@@ -55,6 +55,9 @@ export * from "./requests/getUniqueInfo"
 export * from "./requests/placeBid"
 export * from "./requests/sellNow"
 export * from "./requests/updateSettings"
+export * from "./requests/getSeeds"
+export * from "./requests/getHistory"
+
 export * from "./enums"
 
 // Exports CSGOEmpire class (temp fix?)
