@@ -329,3 +329,39 @@ empire.placeBid(28391470, 60).then(res => {
 ```
 
 You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/placeBid.ts)
+
+---
+### Misc
+
+Other api methods
+
+#### getSeeds
+Get roulette seeds
+
+| Option | Type | Default Value | Description |
+| :----: | :--: | :----: | :----: | 
+| page | number | - | The page to fetch the data from |
+| per_page | number? | 15 | The ammount of items to be fetched per page |
+
+```javascript
+empire.getSeeds(1, 20).then(res => {
+    ...
+})
+```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getSeeds.ts)
+
+#### getHistory
+Returns rolls history
+
+| Option | Type | Default Value | Description |
+| :----: | :--: | :----: | :----: | 
+| seed | number | - | The seed to fetch the data from |
+
+```javascript
+empire.getHistory(2543).then(res => {
+    ...
+})
+```
+
+You can find the response Object interface [here](https://github.com/gustavo-dev/csgoempire-api/blob/master/lib/typings/requests/getHistory.ts)
