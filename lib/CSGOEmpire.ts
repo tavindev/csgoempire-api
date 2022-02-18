@@ -110,6 +110,7 @@ export class CSGOEmpire {
             // Handle the Init event
             this._socket.on("init", (data: any) => {
                 if (data && data.authenticated && !this.socketCallbackCalled) {
+                    this.socketCallbackCalled = true
                     console.log(`Successfully authenticated as ${data.name}`)
                     cb(this.socket)
                 }
