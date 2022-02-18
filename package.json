@@ -1,6 +1,6 @@
 {
     "name": "csgoempire-api",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "main": "dist/index.js",
     "typings": "dist/typings",
     "repository": "https://github.com/gustavo-dev/csgoempire-api.git",
