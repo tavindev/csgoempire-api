@@ -2,6 +2,7 @@ import { Withdrawal } from "./operations/withdraw"
 import { AuctionData } from "./entities/auctionData"
 import { Item } from "./entities/item"
 import { Deposit } from "./operations/deposit"
+import { PlaceBidResponse } from "./requests/placeBid"
 
 export interface NewItemSocketData extends Item, AuctionData {
     custom_price_percentage: number
@@ -25,19 +26,26 @@ export type TradeStatusSocketData =
           data: Withdrawal
       }
 
+interface AuctionEventExt {
+    _placeNextBid: () => Promise<PlaceBidResponse>
+    _metadata: {
+        nextBid: number
+    }
+}
+
 export interface SocketEvents {
     timesync: (data: string) => any
-    new_item: (data: NewItemSocketData) => any
+    new_item: (data: NewItemSocketData & AuctionEventExt) => any
     updated_item: (data: UpdatedItemSocketData) => any
-    auction_update: (data: AuctionUpdateSocketData) => any
+    auction_update: (data: AuctionUpdateSocketData & AuctionEventExt) => any
     deleted_item: (data: DeletedItemSocketData) => any
     trade_status: (data: TradeStatusSocketData) => any
 }
 
 export interface ExtendedSocket extends SocketIOClient.Socket {
-    on: <T extends keyof SocketEvents, K extends SocketEvents[T]>(
+    on: <T extends keyof SocketEvents>(
         event: T,
-        fn: K
+        fn: SocketEvents[T]
     ) => SocketIOClient.Emitter
 }
 

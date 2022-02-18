@@ -22,6 +22,9 @@ import {
     PlaceBidResponse,
     GetSeedsResponse,
     GetHistoryResponse,
+    NewItemSocketData,
+    SocketEvents,
+    AuctionUpdateSocketData,
 } from "./typings"
 
 export class CSGOEmpire {
@@ -29,10 +32,12 @@ export class CSGOEmpire {
 
     // Trade Socket
     private _socket?: SocketIOClient.Socket
+    private socketCallbackCalled: boolean
 
     // private notificationsSocket: SocketIOClient.Socket
 
     constructor(apiKey?: string) {
+        this.socketCallbackCalled = false
         this.api = new Axios({
             baseURL: "https://csgoempire.com/api/v2",
             headers: {
@@ -104,7 +109,7 @@ export class CSGOEmpire {
 
             // Handle the Init event
             this._socket.on("init", (data: any) => {
-                if (data && data.authenticated) {
+                if (data && data.authenticated && !this.socketCallbackCalled) {
                     console.log(`Successfully authenticated as ${data.name}`)
                     cb(this.socket)
                 }
@@ -125,6 +130,49 @@ export class CSGOEmpire {
         _socket.on = (event, fn) => {
             // Typescript thinks this could be undefined
             if (!this._socket) throw Error("Socket is not available")
+
+            if (event === "new_item") {
+                const _fn = fn as SocketEvents["new_item"]
+
+                return this._socket.on(event, (data: NewItemSocketData) => {
+                    const _metadata = { nextBid: data.market_value }
+
+                    _fn({
+                        ...data,
+                        _metadata,
+                        _placeNextBid: async () => {
+                            return await this.placeBid(
+                                data.id,
+                                _metadata.nextBid
+                            )
+                        },
+                    })
+                })
+            } else if (event === "auction_update") {
+                const _fn = fn as SocketEvents["auction_update"]
+
+                return this._socket.on(
+                    event,
+                    (data: AuctionUpdateSocketData) => {
+                        const _metadata = {
+                            nextBid: Math.round(
+                                data.auction_highest_bid * 1.01
+                            ),
+                        }
+
+                        _fn({
+                            ...data,
+                            _metadata,
+                            _placeNextBid: async () => {
+                                return await this.placeBid(
+                                    data.id,
+                                    _metadata.nextBid
+                                )
+                            },
+                        })
+                    }
+                )
+            }
 
             return this._socket.on(event, fn)
         }
