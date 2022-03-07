@@ -116,6 +116,15 @@ export class CSGOEmpire {
                 }
             })
         })
+
+        this._socket.on("error", (err: any) => console.error(err))
+
+        this._socket.on("connect_error", (err: any) =>
+            console.error(
+                `There was an error connecting to the trade websocket`,
+                err
+            )
+        )
     }
 
     /**
